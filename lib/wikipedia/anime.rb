@@ -2,8 +2,8 @@
 
 require 'wikipedia'
 require 'wikipedia/anime/version'
-require 'wikipedia/anime/voice_actor_parser'
 require 'wikipedia/anime/character_parser'
+require 'wikipedia/anime/seiyu_parser'
 
 # Wikipedia APIの接続先をjaに変更します
 Wikipedia.Configure do
