@@ -1,0 +1,19 @@
+# This is the default configuration file with all checking enabled. It is also
+# the configuration used to check the rubocop source code.
+# See: https://github.com/bbatsov/rubocop/blob/master/config/default.yml
+
+# Use only ascii symbols in comments.
+AsciiComments:
+  Enabled: false
+
+# Limit lines to 100 characters.
+LineLength:
+  Enabled: false
+  Max: 100
+
+# Use snake_case for symbols.
+SymbolName:
+  Enabled: false
+
+Lambda:
+  Enabled: false

@@ -1,0 +1,2 @@
+--style-glob {app,lib}/**/*.rb
+--style-measure 255
