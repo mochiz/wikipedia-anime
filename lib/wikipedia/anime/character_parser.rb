@@ -106,12 +106,12 @@ module Wikipedia
       #
       # String を返します
       def parsed_kana(name, kana = nil)
-        return name.tr("ァ-ン", "ぁ-ん") unless kana
+        return name.tr('ァ-ン', 'ぁ-ん') unless kana
         kana.gsub(/{{.*\|/, '').gsub('}}', '') \
           .gsub(/\[\[.*?\|/, '') \
           .gsub(']]', '') \
           .gsub('[[', '') \
-          .tr("ァ-ン", "ぁ-ん")
+          .tr('ァ-ン', 'ぁ-ん')
       end
     end
   end

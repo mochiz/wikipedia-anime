@@ -45,8 +45,8 @@ module Wikipedia
       #
       # String を返します。
       def sort_name
-        return name.tr("ァ-ン", "ぁ-ん") unless @content.match('ふりがな=')
-        return name.tr("ァ-ン", "ぁ-ん") if @content.scan(/ふりがな=(.*)/)[0][0].empty?
+        return name.tr('ァ-ン', 'ぁ-ん') unless @content.match('ふりがな=')
+        return name.tr('ァ-ン', 'ぁ-ん') if @content.scan(/ふりがな=(.*)/)[0][0].empty?
         @content.scan(/ふりがな=(.*)/)[0][0]
       end
 
