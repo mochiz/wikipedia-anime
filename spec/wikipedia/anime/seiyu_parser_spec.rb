@@ -4,17 +4,19 @@ require File.expand_path(File.dirname(__FILE__) + '../../../spec_helper')
 
 describe Wikipedia::Anime::SeiyuParser do
   before do
-    json = File.read(File.expand_path(File.dirname(__FILE__) + '../../../fixtures/aki.json'))
+    json = File.read(File.expand_path(File.dirname(__FILE__) + '../../../fixtures/yoko_hikasa.json'))
     allow(Wikipedia).to receive(:find) { Wikipedia::Page.new(json) }
   end
 
   describe '#execute' do
-    subject { Wikipedia::Anime::SeiyuParser.new('豊崎愛生') }
-    it { expect(subject.execute[:name]).to eq('豊崎愛生') }
-    it { expect(subject.execute[:sort_name]).to eq('とよさきあき') }
-    it { expect(subject.execute[:gender]).to eq('female') }
-    it { expect(subject.execute[:twitter_username]).to eq(nil) }
-    it { expect(subject.execute[:wikipedia_url]).to eq(URI.encode("http://ja.wikipedia.org/wiki/豊崎愛生")) }
-    it { expect(subject.execute[:search_text]).to eq('あきちゃん') }
+    before do
+      page = Wikipedia.find('日笠陽子')
+      @parser = Wikipedia::Anime::SeiyuParser.new(page).execute
+    end
+    it { expect(@parser.seiyu.name).to eq('日笠陽子') }
+    it { expect(@parser.seiyu.kana).to eq('ひかさ ようこ') }
+    it { expect(@parser.seiyu.gender).to eq('女性') }
+    it { expect(@parser.seiyu.twitter_username).to eq('hikasayokoSP') }
+    it { expect(@parser.seiyu.wikipedia_url).to eq(URI.encode('http://ja.wikipedia.org/wiki/日笠陽子')) }
   end
 end
