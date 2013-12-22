@@ -1,5 +1,8 @@
 # Wikipedia::Anime
 
+[![Build Status](https://travis-ci.org/mochiz/wikipedia-anime.png?branch=master)](https://travis-ci.org/mochiz/wikipedia-anime)
+[![Code Climate](https://codeclimate.com/github/mochiz/wikipedia-anime.png)](https://codeclimate.com/github/mochiz/wikipedia-anime)
+
 ## Installation
 
 Add this line to your application's Gemfile:
