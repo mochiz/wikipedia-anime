@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Wikipedia::Anime::VERSION
   spec.authors       = ["mochiz"]
   spec.email         = ["mochi.hiro43@gmail.com"]
-  spec.description   = %q{Ruby client for the Wikipedia APIn}
-  spec.summary       = %q{Ruby client for the Wikipedia APIn}
+  spec.description   = %q{Ruby client for the Wikipedia APIn specialized Anime}
+  spec.summary       = %q{Ruby client for the Wikipedia APIn specialized Anime}
   spec.homepage      = "https://github.com/mochiz/wikipedia-anime"
   spec.license       = "MIT"
 
