@@ -1,102 +1,77 @@
 # -*- coding: utf-8 -*-
 
+require 'wikipedia/anime/tag_remover'
+
 module Wikipedia
   module Anime
+
+    # アニメキャラクターパーサー
+    #
+    # アニメページのwikiテキストからキャラクター情報をパースします。
+    # ";平沢唯 \n:声 - 豊崎愛生\n" 形式のテキストを1つのキャラクターとして扱います。
+    #
+    # Examples
+    #
+    #   page = Wikipedia.find('けいおん!')
+    #   parser = Wikipedia::Anime::CharacterParser.new(page.content).execute
+    #   # => [#<Wikipedia::Anime::Character ..>]
+    #
     class CharacterParser
-      CASTING_LINE_SCAN_REGEXP = /;(.*?)\n.*声[-:](.*)/
-      CHARACTERS_PAGE_TITLE_REGEXP = /{{.*登場人物}}/
-      SEIYU_REGEXP = /\[\[(.*?)\]\]/
+      include TagRemover
+
+      # アクセサー
+      attr_accessor :characters, :character_texts, :page, :content
+
+      # クラス定数
+      CHARACTER_SCAN_REGEXP = /;(.*)\n.*声 ??[-:](.*)/
+      NAME_GSUB_REGEXP      = /{{.*\||}}|\[\[.*?\||\[\[|\]\]/
 
       # Public: 新しいインスタンスを生成します。
       #
-      # title - Wikipediaページタイトル
-      def initialize(title)
-        @page = Wikipedia.find(title)
-        @content = @page.content.gsub(' ', '').gsub('：', ':').gsub('[[声優|声]]', '声')
-        @castings = @content.scan(CASTING_LINE_SCAN_REGEXP)
+      # page - Wikipedia::Page オブジェクト
+      def initialize(page)
+        @page            = page
+        @content         = page.content.gsub('：', ':').gsub('[[声優|声]]', '声')
+        @characters      = []
+        @character_texts = @content.scan(CHARACTER_SCAN_REGEXP)
       end
 
-      # Public: キャラクター名と人物名のハッシュ配列を返します。
-      # 声優のWikiページのあるキャラクターのみ対象とします
+      # Public: キャラクターをパースします。
+      # Wikiページのコンテンツからキャラクターをパースします。
       #
-      # Array を返します。
+      # Wikipedia::Anime::CharacterParser オブジェクトを返します。
       def execute
-        params = []
-        @castings.each do |character, seiyu|
-          next unless seiyu.match(/\[\[/)
-          params << parsed_casting(character, seiyu)
+        @character_texts.each do |character, seiyu|
+          character = remove_tag(character)
+          @characters << parsed_character(character, seiyu)
         end
-        params
+        self
       end
 
       private
 
-      # Public: 登場人物ページヘのリダイレクトが必要か否かを返します
-      #
-      # Boolean を返します。
-      def should_redirect
-        parsed_castings.empty? && characters_page_title.length > 0
-      end
-
-      # Public: 登場人物ページのタイトルを返します
-      #
-      # String を返します。
-      def characters_page_title
-        return '' unless @content.match(CHARACTERS_PAGE_TITLE_REGEXP)
-        @content.match(CHARACTERS_PAGE_TITLE_REGEXP)[0].gsub(/{.*\|/, '').gsub('}}', '')
-      end
-
-      private
-
-      # Internal: キャラクター名と人物名のハッシュ配列を返します。
+      # Internal: キャラクターをパースして返します。
       #
       # character - String "平沢唯（ひらさわゆい）"
-      # seiyu - String "[[豊崎愛生]]"
+      # seiyu     - String "[[豊崎愛生]]"
       #
-      # Hash を返します。
-      def parsed_casting(character, seiyu)
-        character = retrieve_unnecessary_tag(character)
-        names = character.gsub(/）.*/, '').split('（')
-        name = parsed_name(names[0])
-        kana = parsed_kana(name, names[1])
+      # Wikipedia::Anime::Character オブジェクトを返します。
+      def parsed_character(character, seiyu)
+        name = parsed_name(character)
+        kana = parsed_kana(name, character)
         seiyu = parsed_seiyu(seiyu)
-        { name: name, kana: kana, seiyu: seiyu }
+        Character.new(name: name,
+                      kana: kana,
+                      seiyu: seiyu)
       end
 
-      # Internal: 人物名を返します。
-      #
-      # name - String
-      #
-      # String を返します
-      def parsed_seiyu(name)
-        name.gsub(/{{.*\|/, '').gsub('}}', '') \
-          .gsub(/\|.*?\]\]/, '') \
-          .gsub('[[', '') \
-          .gsub(']]', '')
-      end
-
-      # Internal: キャラクター文字列から不要なタグを除去します
-      #
-      # character - String
-      #
-      # String を返します。
-      def retrieve_unnecessary_tag(character)
-        character.gsub(/<!--.*-->/, '') \
-          .gsub(/<ref.*?<\/ref>/, '') \
-          .gsub(/\[\[.*?\|/, '') \
-          .gsub(']]', '')
-      end
-
-      # Internal: 名前を返します。
+      # Internal: キャラクター名を返します。
       #
       # name - String
       #
       # String を返します。
       def parsed_name(name)
-        name.gsub(/{{.*\|/, '').gsub('}}', '') \
-          .gsub(/\[\[.*?\|/, '') \
-          .gsub(']]', '') \
-          .gsub('[[', '')
+        remove_tag(name).gsub(/（.*）/, '').gsub(NAME_GSUB_REGEXP, '').gsub(/ /, '')
       end
 
       # Internal: ふりがなを返します。
@@ -105,14 +80,25 @@ module Wikipedia
       # kana - String
       #
       # String を返します
-      def parsed_kana(name, kana = nil)
+      def parsed_kana(name, character)
+        kana = character.match(/（.*）/)
         return name.tr('ァ-ン', 'ぁ-ん') unless kana
-        kana.gsub(/{{.*\|/, '').gsub('}}', '') \
-          .gsub(/\[\[.*?\|/, '') \
-          .gsub(']]', '') \
-          .gsub('[[', '') \
-          .tr('ァ-ン', 'ぁ-ん')
+        return name.tr('ァ-ン', 'ぁ-ん') if /[A-Za-z]/ =~ kana[0]
+        kana[0].gsub(/（|）/, '').gsub(NAME_GSUB_REGEXP, '').tr('ァ-ン', 'ぁ-ん')
+      end
+
+      # Internal: 人物名を返します。
+      #
+      # name - String
+      #
+      # String を返します
+      def parsed_seiyu(name)
+        name = remove_tag(name).gsub(NAME_GSUB_REGEXP, '').strip
+        name.gsub!('島崎信長', '島﨑信長')
+        name.gsub!('赤崎千夏', '赤﨑千夏')
+        name
       end
     end
   end
 end
+
