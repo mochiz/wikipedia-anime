@@ -26,9 +26,7 @@ class Wikipedia::Page
   # Boolean を返します。
   def is_male
     return false unless categories
-    return true if categories.include?('Category:日本の男性声優')
-    return true if categories.include?('Category:日本の俳優')
-    false
+    categories.any? {|x| ['Category:日本の男性声優', 'Category:日本の俳優'].include?(x) }
   end
 
   # Public: 人物ページの性別が女性か否かを返します。
@@ -36,9 +34,7 @@ class Wikipedia::Page
   # Boolean を返します。
   def is_female
     return false unless categories
-    return true if categories.include?('Category:日本の女性声優')
-    return true if categories.include?('Category:日本の女優')
-    false
+    categories.any? {|x| ['Category:日本の女性声優', 'Category:日本の女優'].include?(x) }
   end
 
   # Public: 人物ページの性別を返します。
