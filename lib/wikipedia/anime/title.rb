@@ -2,7 +2,6 @@
 
 module Wikipedia
   module Anime
-
     # タイトルクラス
     #
     # 1つのアニメタイトルをあらわします。
@@ -29,7 +28,7 @@ module Wikipedia
       #
       # Wikipedia::Anime::Title オブジェクトを返します。
       def self.find(title)
-        self.new(title)
+        new(title)
       end
 
       # Public: キャラクターリストを返します。

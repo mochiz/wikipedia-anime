@@ -4,7 +4,6 @@ require 'wikipedia/anime/tag_remover'
 
 module Wikipedia
   module Anime
-
     # アニメキャラクターパーサー
     #
     # アニメページのwikiテキストからキャラクター情報をパースします。
@@ -101,4 +100,3 @@ module Wikipedia
     end
   end
 end
-

@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 
-# タグ除去に関するメソッドをまとめたモジュール
-#
-# Examples
-#
-#   TagRemover.
-#
 module Wikipedia
   module Anime
+    # タグ除去に関するメソッドをまとめたモジュール
+    # パーサーに include して使います。
     module TagRemover
-      REFERENCE_TAG     = /<ref.*?<\/ref>|<REF.*?<\/REF>/
+      REFERENCE_TAG     = %r(<ref.*?</ref>|<REF.*?</REF>|<ref.*?/>)
       COMMENT_TAG       = /<!--.*-->/
       INTERNAL_LINK_TAG = /\[\[|\[\[.*?\||\]\]/
       SPAN_TAG = /<span.*?>|<\/span>/

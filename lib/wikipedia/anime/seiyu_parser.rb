@@ -2,7 +2,6 @@
 
 module Wikipedia
   module Anime
-
     # 声優パーサークラス
     #
     # Wikipediaページのコンテンツテキストから声優情報をパースします。

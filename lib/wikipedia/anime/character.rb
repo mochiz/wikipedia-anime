@@ -2,7 +2,6 @@
 
 module Wikipedia
   module Anime
-
     # キャラクタークラス
     #
     # 1つのキャラクターをあらわします。

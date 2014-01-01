@@ -2,7 +2,6 @@
 
 module Wikipedia
   module Anime
-
     # 声優クラス
     #
     # 1つの声優をあらわします。

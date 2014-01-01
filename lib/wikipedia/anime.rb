@@ -13,6 +13,7 @@ require 'wikipedia/anime/title'
 require 'wikipedia/anime/tag_remover'
 
 module Wikipedia
+  # Wikipediaアニメモジュール
   module Anime
   end
 end
