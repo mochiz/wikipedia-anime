@@ -34,8 +34,8 @@ module Wikipedia
         @staff_texts = @content.scan(STAFF_SCAN_REGEXP)
       end
 
-      # Public: キャラクターをパースします。
-      # Wikiページのコンテンツからキャラクターをパースします。
+      # Public: スタッフをパースします。
+      # Wikiページのコンテンツからスタッフをパースします。
       #
       # Wikipedia::Anime::StaffParser オブジェクトを返します。
       def execute

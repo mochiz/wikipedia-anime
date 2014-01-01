@@ -11,6 +11,7 @@ require 'wikipedia/anime/seiyu'
 require 'wikipedia/anime/seiyu_parser'
 require 'wikipedia/anime/staff'
 require 'wikipedia/anime/staff_parser'
+require 'wikipedia/anime/information_parser'
 require 'wikipedia/anime/title'
 require 'wikipedia/anime/tag_remover'
 

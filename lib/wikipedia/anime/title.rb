@@ -46,6 +46,13 @@ module Wikipedia
         end
       end
 
+      # Public: 制作などリストを返します。
+      #
+      # Hashの配列を返します。
+      def informations
+        @informations ||= Wikipedia::Anime::InformationParser.new(@page).execute.informations
+      end
+
       # Public: スタッフリストを返します。
       #
       # Wikipedia::Anime::Staff の配列を返します。

@@ -37,6 +37,20 @@ describe Wikipedia::Anime::Title do
     it { expect(@title.staffs.first.name).to eq('山田尚子') }
   end
 
+  describe '#information' do
+    before do
+      @title = Wikipedia::Anime::Title.find('けいおん!')
+      @informations = {
+        "アニメーション制作" => "京都アニメーション",
+        "放送局" => "JapanNewsNetwork|TBS系列各局（他、#放送局|放送局参照）",
+        "放送開始" => "第1期：2009年4月2日",
+        "製作" => "桜高軽音部、TBSテレビ|TBS",
+        "話数" => "第1期：全14話（本編24話+番外編3話）"
+      }
+    end
+    it { expect(@title.informations).to eq(@informations) }
+  end
+
   describe '#targeted_characters' do
     before do
       @names = %w(平沢 琴吹)
