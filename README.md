@@ -38,6 +38,20 @@ anime characters.
  "日笠陽子",...
 ```
 
+anime informations.
+
+```ruby
+[1] pry(main)> require 'wikipedia/anime'
+[2] pry(main)> title = Wikipedia::Anime::Title.find('けいおん!')
+=> #<Wikipedia::Anime::Title:0x007f81a3117340...
+[3] pry(main)> title.informations
+=> {"アニメーション制作"=>"京都アニメーション",
+ "製作"=>"渡辺香<br/>古川陽子<br/>安田正樹<br/>八田英明",
+ "放送局"=>"TBSテレビ|TBS",
+ "放送開始"=>"第1期：2009年4月2日",
+ "話数"=>"第1期：全14話（本編24話+番外編3話）",
+ "制作"=>"京都アニメーション"}
+```
 anime staffs.
 
 ```ruby
