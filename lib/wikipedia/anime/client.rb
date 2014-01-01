@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# 曖昧さ回避ページの場合に対応するようfindメソッドを上書きします
 class Wikipedia::Client
-  # 曖昧さ回避ページの場合に対応するようfindメソッドを上書きします
   def find(title, options = {})
     title = Wikipedia::Url.new(title).title if title.match(/^http/)
     page = Wikipedia::Page.new(request_page(title, options))

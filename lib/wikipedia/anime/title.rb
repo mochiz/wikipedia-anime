@@ -46,6 +46,13 @@ module Wikipedia
         end
       end
 
+      # Public: スタッフリストを返します。
+      #
+      # Wikipedia::Anime::Staff の配列を返します。
+      def staffs
+        @staffs ||= Wikipedia::Anime::StaffParser.new(@page).execute.staffs
+      end
+
       # Public: 名前が一致したキャラクターリストを返します。
       #
       # names - キャラクター名配列
