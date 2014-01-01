@@ -38,6 +38,20 @@ anime characters.
  "日笠陽子",...
 ```
 
+anime staffs.
+
+```ruby
+[1] pry(main)> require 'wikipedia/anime'
+[2] pry(main)> title = Wikipedia::Anime::Title.find('けいおん!')
+=> #<Wikipedia::Anime::Title:0x007f81a3117340...
+[3] pry(main)> title.staffs
+=> [#<Wikipedia::Anime::Staff:0x007f9a9db508a8 @name="山田尚子", @position="監督">,
+ #<Wikipedia::Anime::Staff:0x007f9a9db50420 @name="吉田玲子", @position="シリーズ構成">,
+ ...
+[4] pry(main)> title.staffs.first.values
+=> ["監督", "山田尚子"]
+```
+
 seiyu information.
 
 ```ruby
