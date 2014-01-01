@@ -27,6 +27,17 @@ describe Wikipedia::Anime::Title do
     it { expect(@title.characters.first.seiyu).to eq('豊崎愛生') }
   end
 
+  describe '#targeted_characters' do
+    before do
+      @names = %w(平沢 琴吹)
+      @title = Wikipedia::Anime::Title.find('けいおん!')
+    end
+    it { expect(@title.characters(@names).count).to eq(2) }
+    it { expect(@title.characters(@names).first.class).to eq(Wikipedia::Anime::Character) }
+    it { expect(@title.characters(@names).first.name).to eq('平沢唯') }
+    it { expect(@title.characters(@names).last.name).to eq('琴吹紬') }
+  end
+
   describe '#character_names' do
     before do
       @title = Wikipedia::Anime::Title.find('けいおん!')

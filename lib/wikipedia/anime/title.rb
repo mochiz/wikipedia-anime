@@ -33,10 +33,31 @@ module Wikipedia
       end
 
       # Public: キャラクターリストを返します。
+      # 配列が渡された場合は名前が一致したキャラクターを返します。
+      #
+      # names - キャラクター名配列
       #
       # Wikipedia::Anime::Character の配列を返します。
-      def characters
+      def characters(names = [])
         @characters ||= Wikipedia::Anime::CharacterParser.new(@page).execute.characters
+        if names.empty?
+          @characters
+        else
+          targeted_characters(names)
+        end
+      end
+
+      # Public: 名前が一致したキャラクターリストを返します。
+      #
+      # names - キャラクター名配列
+      #
+      # Wikipedia::Anime::Character の配列を返します。
+      def targeted_characters(names)
+        list = []
+        names.each do |name|
+          list << characters.find { |character| character.name.match(/#{name}/) }
+        end
+        list
       end
 
       # Public: キャラクター名リストを返します。
